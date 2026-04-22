@@ -63,6 +63,7 @@ class DatabaseManager:
 	def __init__(self, uri: str) -> None:
 		self._uri = uri
 		self._engine: Optional[Engine] = None
+		self._schema_summary_cache: Optional[str] = None
 
 	@property
 	def engine(self) -> Engine:
@@ -86,6 +87,9 @@ class DatabaseManager:
 		This will be fed into the LLM as context during Text-to-SQL.
 		"""
 
+		if self._schema_summary_cache is not None:
+			return self._schema_summary_cache
+
 		inspector = inspect(self.engine)
 		lines: list[str] = []
 
@@ -94,7 +98,8 @@ class DatabaseManager:
 			col_desc = ", ".join(f"{c['name']} ({c.get('type')})" for c in columns)
 			lines.append(f"Table {table_name}: {col_desc}")
 
-		return "\n".join(lines)
+		self._schema_summary_cache = "\n".join(lines)
+		return self._schema_summary_cache
 
 	def run_read_only_query(self, sql: str, params: Optional[dict[str, Any]] = None) -> QueryResult:
 		"""Execute a read-only SQL statement and return a QueryResult.

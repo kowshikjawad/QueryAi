@@ -37,6 +37,23 @@ python -m queryai.main --db-path queryai/data/sample.db --question "Show me the 
 
 If `--question` is omitted, you will be prompted in the terminal.
 
+### One-time DB update: `parcelsBehind` on `Assignment`
+
+If your DB has `Assignment`/`Driver` tables and you want questions like
+"how many parcels <driver name> is behind", run:
+
+```powershell
+python -m queryai.data.add_parcels_behind --db-uri "postgresql+psycopg2://user:pass@host:5432/dbname"
+```
+
+This adds `Assignment.parcelsBehind` if missing and backfills existing NULL values with random integers from 10 to 50.
+
+To verify immediately after update, run:
+
+```powershell
+python -m queryai.data.add_parcels_behind --db-uri "postgresql+psycopg2://user:pass@host:5432/dbname" --verify --limit 10
+```
+
 ## Quick start – Streamlit UI
 
 1. Ensure dependencies are installed (including Streamlit and Plotly):

@@ -72,6 +72,7 @@ def build_llm_from_config(config: AppConfig) -> ChatOpenAI:
 		temperature=config.temperature,
 		api_key=config.api_key,
 		base_url=config.base_url,
+		max_tokens=1024,
 	)
 
 
@@ -91,7 +92,7 @@ def normalize_db_uri(raw: str) -> str:
 	return build_sqlite_uri_from_path(raw)
 
 
-def create_agent(db_identifier: str, max_retries: int = 3) -> TextToSQLAgent:
+def create_agent(db_identifier: str, max_retries: int = 2) -> TextToSQLAgent:
 	"""Create a TextToSQLAgent for the given DB identifier.
 
 	The identifier can be either:

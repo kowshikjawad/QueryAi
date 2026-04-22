@@ -34,6 +34,7 @@ Check items off or add notes as you work.
 - [ ] Add vector-store powered few-shot prompting (gold SQL examples).
 - [ ] Add multi-model backend (OpenRouter, Ollama/local, direct OpenAI, etc.).
 - [ ] Add configuration for per-environment settings (dev/stage/prod).
+- [ ] Add schema-aware RAG 
 
 ## Technical Debt / Ideas
 
